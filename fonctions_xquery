@@ -14,4 +14,13 @@ declare function local:getListeRegions()  {
     return <REG>{data($x)}</REG>
 };
 
-local:getListeRegions()
+declare function local:getInformationsImmeuble($ref as xs:string)  {
+    
+    for $x in doc("merimee-MH.xml")/csv_data/row
+    where $x/REF=$ref
+    order by $x
+    return <ETUD>{data($x/ETUD)}</ETUD>
+};
+
+
+local:getInformationsImmeuble("PA00078014")
