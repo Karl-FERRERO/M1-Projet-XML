@@ -1,10 +1,17 @@
 xquery version "3.0";
 
-declare function local:getListeDepartement()  {
+declare function local:getListeDepartements()  {
     
     for $x in distinct-values(doc("merimee-MH.xml")/csv_data/row/DPT)
     order by $x
     return <DPT>{data($x)}</DPT>
 };
 
-local:getListeDepartement()
+declare function local:getListeRegions()  {
+    
+    for $x in distinct-values(doc("merimee-MH.xml")/csv_data/row/REG)
+    order by $x
+    return <REG>{data($x)}</REG>
+};
+
+local:getListeRegions()
