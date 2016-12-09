@@ -1,0 +1,28 @@
+xquery version "3.0";
+
+import module namespace request = "http://exist-db.org/xquery/request";
+
+element {QName("http://www.w3.org/1999/xhtml", "html")} {
+    
+    let $region := request:get-parameter("region", "Alsace")
+    let $start := request:get-parameter("start", 1)
+    let $records := request:get-parameter("records", 5)
+    
+    let $monumentsregion :=
+        for $x in doc("merimee-MH.xml")/csv_data/row
+        where $x/REG=$region
+        return $x
+
+    for $x at $count in subsequence($monumentsregion, $start, $records)
+    return
+       <div class="fiche">
+                <h1>
+                    <span>{data($x/REF)}</span> <br/>
+                    <span>{data($x/TICO)}</span>
+                    (<span>{data($x/COM)}</span>)
+                </h1>
+                <p>{data($x/PPRO)}</p>
+            </div>
+        
+}
+
