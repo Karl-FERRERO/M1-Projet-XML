@@ -5,9 +5,10 @@ import module namespace request = "http://exist-db.org/xquery/request";
 element {QName("http://www.w3.org/1999/xhtml", "html")} {
     
     let $region := request:get-parameter("region", "Alsace")
-    let $start := request:get-parameter("start", 1)
-    let $records := request:get-parameter("records", 5)
-    
+    let $page := number(request:get-parameter("page", 1))
+    let $records := 5
+    let $start := ($page+-1)*$records+1
+     
     let $monumentsregion :=
         for $x in doc("merimee-MH.xml")/csv_data/row
         where $x/REG=$region
