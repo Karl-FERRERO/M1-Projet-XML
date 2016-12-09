@@ -3,7 +3,7 @@ xquery version "3.0";
 element {QName("http://www.w3.org/1999/xhtml", "html")} {
 
     for $x in doc("merimee-MH.xml")/csv_data/row
-    where $x/REF="PA00078014"
+    where $x/REF="PA00078014" or  $x/REF="PA00078015"
     return 
         <div class="fiche">
             <h1>
