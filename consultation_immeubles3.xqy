@@ -12,7 +12,6 @@ element {QName("http://www.w3.org/1999/xhtml", "html")} {
                 (<span>{data($x/COM)}</span>)
             </h1>
             <p>{data($x/PPRO)}</p>
-            <img src="data:image/png;base64,img-{data($x/REF)}" />
         </div>
         
 }
