@@ -9,32 +9,36 @@ declare function functx:capitalize-first
    concat(upper-case(substring($arg,1,1)),
              substring($arg,2))
  } ;
+ 
+let $nom := request:get-parameter("nom", "tour")
+let $nomCap := upper-case($nom)
+let $nomLow := lower-case($nom)
+let $nomCapFirst := functx:capitalize-first($nomLow)
+    
+let $page := number(request:get-parameter("page", 1))
+let $records := 16
+let $start := ($page+-1)*$records+1
 
-element {QName("http://www.w3.org/1999/xhtml", "html")} {
-    
-    let $nom := request:get-parameter("nom", "eglise")
-    let $nomCap := upper-case($nom)
-    let $nomLow := lower-case($nom)
-    let $nomCapFirst := functx:capitalize-first($nomLow)
-    
-    let $page := number(request:get-parameter("page", 1))
-    let $records := 5
-    let $start := ($page+-1)*$records+1
-    
-    let $correspondance :=
+let $correspondance :=
         for $x in doc("merimee-MH.xml")/csv_data/row[matches(TICO, $nom) or matches(TICO, $nomCapFirst) or matches(TICO, $nomCap) or matches(TICO, $nomLow)]
         return $x
+        
+let $nbPages := floor(count($correspondance) div $records)
 
-for $x at $count in subsequence($correspondance, $start, $records)
-    return
-       <div class="fiche">
-                <h1>
-                    <span>{data($x/REF)}</span> <br/>
-                    <span>{data($x/TICO)}</span>
-                    (<span>{data($x/COM)}</span>)
-                </h1>
-                <p>{data($x/PPRO)}</p>
-            </div>
-            
+return element {QName("http://www.w3.org/1999/xhtml", "html")} {
+    
+    <div id="conteneur-fiches" data-totalpages="{$nbPages}"> {
+        for $x at $count in subsequence($correspondance, $start, $records)
+            return
+               <div class="fiche">
+                        <h1>
+                            <span>{data($x/REF)}</span> <br/>
+                            <span>{data($x/TICO)}</span>
+                            (<span>{data($x/COM)}</span>)
+                        </h1>
+                        <p>{data($x/PPRO)}</p>
+                    </div>
+    }
+    </div>
         
 }
