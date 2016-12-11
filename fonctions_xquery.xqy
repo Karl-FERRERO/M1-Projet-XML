@@ -23,4 +23,4 @@ declare function local:getInformationsImmeuble($ref as xs:string)  {
 };
 
 
-local:getInformationsImmeuble("PA00078014")
+local:getListeRegions()
