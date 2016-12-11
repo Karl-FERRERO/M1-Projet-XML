@@ -15,10 +15,7 @@ declare function local:getListeRegions()  {
                     let $count := count(
                         for $x in doc("merimee-MH.xml")/csv_data/row[REG=$region]
                         return $x
-                    ) div count(
-                        for $x in doc("merimee-MH.xml")/csv_data/row
-                        return $x
-                    )*100
+                    ) 
                     
                     return  <STAT>
                                <REG>{string($region)}</REG><COUNT>{string($count)}</COUNT>
