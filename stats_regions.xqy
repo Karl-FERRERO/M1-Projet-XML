@@ -2,7 +2,11 @@ xquery version "3.0";
 
 declare function local:getListeRegions()  {
         for $x in distinct-values(doc("merimee-MH.xml")/csv_data/row/REG)
-        order by $x
+        let $count := count(
+                        for $y in doc("merimee-MH.xml")/csv_data/row[REG=$x]
+                        return $y
+                    ) 
+        order by $count descending
         return data($x)
 };
 
@@ -11,7 +15,7 @@ declare function local:getListeRegions()  {
 element {QName("http://www.w3.org/1999/xhtml", "html")} {
     <figure>
         <figcaption>Nombre de monuments par région :</figcaption>
-    <svg class="chart" width="500" height="700" aria-labelledby="title desc" role="img">
+    <svg class="chart" width="600" height="700" aria-labelledby="title desc" role="img">
     
         
             {
