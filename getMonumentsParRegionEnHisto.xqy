@@ -10,14 +10,10 @@ declare function local:getListeRegions()  {
         return data($x)
 };
 
-
-
 element {QName("http://www.w3.org/1999/xhtml", "html")} {
     <figure>
         <figcaption>Nombre de monuments par région :</figcaption>
     <svg class="chart" width="600" height="700" aria-labelledby="title desc" role="img">
-    
-        
             {
                 
                 let $monumentsregion := local:getListeRegions()
